@@ -16,11 +16,11 @@ const configuration = new Configuration({
 
 const openaiApi = new OpenAIApi(configuration)
 
-const generateImage = async () => {
+const generateImage = async (value) => {
   const result = await openaiApi.createImage({
-    prompt: 'Mona Lisa',
+    prompt: value,
     n: 1,
-    size: '256x256',
+    size: '512x512',
   })
 
   return result.data.data
@@ -48,7 +48,7 @@ app.get('/api/bonjour/:json?', (req, res) => {
   return res.send(message)
 })
 
-app.get('/api/bonjour/:text', async (req, res) => {
+app.get('/api/generate-image/:text', async (req, res) => {
   const text = req.params.text
   const data = await generateImage(text)
   return res.json(data)
